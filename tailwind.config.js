@@ -10,6 +10,7 @@ export default {
         headingColor:'#111430',
         paragraphColor:'#666666',
         textColor:'#F63E7B',
+        dashboardTextColor:'#878787'
       }
     },
   },

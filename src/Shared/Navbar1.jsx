@@ -9,6 +9,7 @@ const navLinks = [
   { path: "/portfolio", display: "Our Portfolio" },
   { path: "/team", display: "Our Team" },
   { path: "/contact", display: "Contact Us" },
+  { path: "/dashboard", display: "Dashboard" },
 ];
 
 const Navbar1 = () => {
