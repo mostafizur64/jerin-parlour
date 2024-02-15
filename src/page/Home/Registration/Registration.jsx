@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import Container from "../../../components/Container";
 import RNavbar from "../../../Shared/RNavbar";
 import { Link } from "react-router-dom";
 import googleIcon from "../../../assets/image/Login/google.png";
 import faceBookIcon from "../../../assets/image/Login/facebook.png";
+import { AuthContext } from "../../Providers/AuthProvider";
 const Registration = () => {
+  const { createUser, user, signWithGoogle } = useContext(AuthContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const fName = form.fName.value;
+    const lName = form.lName.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirm_password = form.confirm_password.value;
+
+    const data = { fName, lName, email, password, confirm_password };
+    console.log(data);
+
+    createUser(email, password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleWithGoogleSignIn = () => {
+    signWithGoogle()
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="bg-white ">
       <Container>
@@ -12,13 +44,18 @@ const Registration = () => {
           <div>
             <RNavbar />
           </div>
+          <h3>{user.displayName}</h3>
           <div className="md:mt-20 mt-12">
             <div className="md:w-[570px] mx-auto ">
               <div className="  border p-10">
                 <h2 className="text-headingColor py-4 font-bold text-2xl">
                   Create an account
                 </h2>
-                <form action="" className="space-y-5 md:mt-8 mt-4">
+                <form
+                  action=""
+                  onSubmit={handleSubmit}
+                  className="space-y-5 md:mt-8 mt-4"
+                >
                   <div className="text-headingColor ">
                     <input
                       type="text"
@@ -37,6 +74,7 @@ const Registration = () => {
                   </div>
                   <div className="text-headingColor ">
                     <input
+                      name="email"
                       type="email"
                       placeholder="Username or Email"
                       className="py-3 border-b-[2px] w-full focus:outline-none placeholder:text-headingColor font-medium"
@@ -44,19 +82,23 @@ const Registration = () => {
                   </div>
                   <div className="text-headingColor ">
                     <input
+                      name="password"
                       type="password"
-                      placeholder="First Name"
+                      placeholder="Password"
                       className="py-3 border-b-[2px] w-full focus:outline-none placeholder:text-headingColor font-medium"
                     />
                   </div>
                   <div className="text-headingColor ">
                     <input
-                      type="confirm_password"
-                      placeholder="First Name"
+                      name="confirm_password"
+                      type="password"
+                      placeholder="Confirm Password"
                       className="py-3 border-b-[2px] w-full focus:outline-none placeholder:text-headingColor font-medium"
                     />
                   </div>
-                  <button className="btn w-full ">Create an account</button>
+                  <button type="submit" className="btn w-full ">
+                    Create an account
+                  </button>
                 </form>
                 <div className="mt-8 flex items-center justify-center">
                   <h3>
@@ -86,6 +128,7 @@ const Registration = () => {
                 </div>
                 <div className=" relative">
                   <button
+                    onClick={handleWithGoogleSignIn}
                     type="submit"
                     className="bg-white border border-slate-200 rounded-full  py-2 px-4 md:w-[457px] w-[100%] "
                   >

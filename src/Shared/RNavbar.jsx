@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/image/logo/logo.png";
 import { FaBars } from "react-icons/fa6";
+import { AuthContext } from "../page/Providers/AuthProvider";
 const navLinks = [
   { path: "/", display: "Home " },
   { path: "/about", display: "About Us" },
@@ -11,6 +12,14 @@ const navLinks = [
 ];
 const RNavbar = () => {
   const [header, setHeader] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => console.log(err));
+  };
+
   const scrollHeader = () => {
     if (window.scrollY >= 20) {
       setHeader(true);
@@ -53,17 +62,28 @@ const RNavbar = () => {
                 </NavLink>
               </li>
             ))}
-           <div className="md:hidden flex">
-          <Link to="/login">
-            <button className="btn w-[134px] h-[45px]">Login</button>
-          </Link>
-        </div>
+            <div className="md:hidden flex">
+              <Link to="/login">
+                <button className="btn w-[134px] h-[45px]">Login</button>
+              </Link>
+            </div>
           </ul>
         </div>
         <div className="md:flex hidden">
-          <Link to="/login">
-            <button className="btn w-[134px] h-[45px]">Login</button>
-          </Link>
+          {user ? (
+            <>
+              <span></span>
+              <button onClick={handleLogout} className="btn w-[134px] h-[45px]">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="btn w-[134px] h-[45px]">Login</button>
+              </Link>
+            </>
+          )}
         </div>
         <span className="md:hidden " onClick={toggleMenu}>
           <FaBars className="w-6 h-6 cursor-pointer text-red-400" />
