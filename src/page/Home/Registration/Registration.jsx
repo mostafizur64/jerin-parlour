@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import Container from "../../../components/Container";
 import RNavbar from "../../../Shared/RNavbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import googleIcon from "../../../assets/image/Login/google.png";
 import faceBookIcon from "../../../assets/image/Login/facebook.png";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { toast } from "react-toastify";
 const Registration = () => {
   const { createUser, user, signWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +26,8 @@ const Registration = () => {
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
+        navigate("/");
+        toast.success("Registration successfully!");
       })
       .catch((err) => console.log(err));
   };
@@ -33,6 +37,8 @@ const Registration = () => {
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
+        navigate("/");
+        toast.success("Registration successfully! with google");
       })
       .catch((err) => console.log(err));
   };

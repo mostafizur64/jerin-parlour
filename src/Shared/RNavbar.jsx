@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/image/logo/logo.png";
 import { FaBars } from "react-icons/fa6";
 import { AuthContext } from "../page/Providers/AuthProvider";
@@ -13,10 +13,12 @@ const navLinks = [
 const RNavbar = () => {
   const [header, setHeader] = useState(false);
   const { user, logOut } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     logOut()
-      .then(() => {})
+      .then(() => {
+        navigate("/");
+      })
       .catch((err) => console.log(err));
   };
 
